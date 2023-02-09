@@ -22,6 +22,17 @@ pipeline {
                 jacoco execPattern: 'target/jacoco.exec'
               }
             }
-        }   
+        }
+      stage(Docker Build & Push) {
+            steps {
+              script {
+                withCredentials([usernamePassword(credentialsId :'DockerHub',usernameVariable :'USER',passwordVariable :'PASSWORD')]){
+                  sh 'docker build -t amagdi888/my-repo:numeric-app .'
+                  sh 'echo $PASSWORD | docker login -u $USER --password-stdin'
+                  sh 'docker push amagdi888/my-repo:numeric-app'
+                }
+              }
+            }
+        }  
     }
 }
