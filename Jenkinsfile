@@ -33,6 +33,18 @@ pipeline {
                 }
               }
             }
-        }  
-    }
+        }
+      stage('Apply Kubernetes files') {
+            steps {
+              script {
+                    withKubeConfig([credentialsId: 'kube']) {
+                      sh 'kubectl apply -f k8s_deployment_service.yaml'
+                    }
+              }
+            }
+              
+            
+      }
+  }  
+    
 }

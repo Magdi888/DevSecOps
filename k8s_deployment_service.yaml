@@ -16,8 +16,10 @@ spec:
         app: devsecops
     spec:
       containers:
-      - image: replace
+      - image: amagdi888/my-repo:numeric-app
         name: devsecops-container
+        ports:
+        - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
