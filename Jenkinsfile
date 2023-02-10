@@ -17,7 +17,7 @@ pipeline {
               }
             }
       }
-      stage ('Mutation Teast - PIT')
+      stage ('Mutation Teast - PIT') {
              steps {
               script {
                 sh "mvn org.pitest:pitest-maven:mutationCoverage"
@@ -29,7 +29,7 @@ pipeline {
                 }
              }
 
-
+      }
       stage('Build Artifact') {
             steps {
               sh "mvn clean package -DskipTests=true"
