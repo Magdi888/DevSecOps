@@ -34,7 +34,10 @@ pipeline {
         steps {
           script {
             withSonarQubeEnv(credentialsId: 'sonarqube') {
-               sh "mvn sonar:sonar -Dsonar.projectKey=numeric-application"
+                sh "mvn sonar:sonar -Dsonar.projectKey=numeric-application"
+            }
+            timeout(time: 1, unit: 'MINUTES') {
+                waitForQualityGate abortPipeline: true
             }
           }
         }
