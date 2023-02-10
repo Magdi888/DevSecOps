@@ -5,12 +5,6 @@ pipeline {
   }
 
   stages {
-      stage('Build Artifact') {
-            steps {
-              sh "mvn clean package -DskipTests=true"
-              archive 'target/*.jar' //so that they can be downloaded later
-            }
-        }   
 
       stage('Unit Test - Junit and Jacoco') {
             steps {
@@ -22,7 +16,27 @@ pipeline {
                 jacoco execPattern: 'target/jacoco.exec'
               }
             }
-        }
+      }
+      stage ('Mutation Teast - PIT')
+             steps {
+              script {
+                sh "mvn org.pitest:pitest-maven:mutationCoverage"
+              }
+             }
+             post {
+                always {
+                  pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
+                }
+             }
+
+
+      stage('Build Artifact') {
+            steps {
+              sh "mvn clean package -DskipTests=true"
+              archive 'target/*.jar' //so that they can be downloaded later
+            }
+      }   
+
       stage('Docker Build & Push') {
             steps {
               script {
@@ -33,7 +47,8 @@ pipeline {
                 }
               }
             }
-        }
+      }
+
       stage('Apply Kubernetes files') {
             steps {
               script {
@@ -42,8 +57,6 @@ pipeline {
                     }
               }
             }
-              
-            
       }
   }  
     
