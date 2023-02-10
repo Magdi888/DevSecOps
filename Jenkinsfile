@@ -28,7 +28,16 @@ pipeline {
                   pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
                 }
              }
+      }
 
+      stage ('SonarQube') {
+        steps {
+          script {
+            withSonarQubeEnv(credentialsId: 'sonarqube') {
+               sh "mvn sonar:sonar -Dsonar.projectKey=numeric-application"
+            }
+          }
+        }
       }
       stage('Build Artifact') {
             steps {
