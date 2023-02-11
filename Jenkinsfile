@@ -18,16 +18,16 @@ pipeline {
             }
       }
       stage ('Mutation Teast - PIT') {
-             steps {
+            steps {
               script {
                 sh "mvn org.pitest:pitest-maven:mutationCoverage"
               }
-             }
-             post {
+            }
+            post {
                 always {
                   pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
                 }
-             }
+            }
       }
 
       stage ('SonarQube') {
@@ -41,6 +41,20 @@ pipeline {
             }
           }
         }
+      }
+
+      stage ('OWASP Dependency check') {
+        steps {
+          script {
+            sh 'mvn dependency-check:check'
+          }
+        }
+        post {
+            always {
+              dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
+            }
+        }
+
       }
       stage('Build Artifact') {
             steps {
