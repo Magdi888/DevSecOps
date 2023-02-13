@@ -32,13 +32,20 @@ pipeline {
         }
       }
 
-      stage ('OWASP Dependency check') {
+      stage ('OWASP Dependency check & Image Scanning') {
         steps {
-          script {
-            sh 'mvn dependency-check:check'
+          parallel ( 
+
+            'OWASP Dependency check': {
+              sh 'mvn dependency-check:check'
+            },
+            'Trivy Image Scanning': {
+              sh 'bash trivy-scan.sh'
+            }
+          )
           }
         }
-      }
+      
       stage('Build Artifact') {
             steps {
               sh "mvn clean package -DskipTests=true"
