@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ImageName=$(awk 'NR==1 {print $}' Dockerfile)
+ImageName=$(awk 'NR==1 {print $2}' Dockerfile)
 
 trivy image --severity HIGH --exit-code 0 --light $ImageName
 trivy image --severity CRITICAL --exit-code 1 --light $ImageName
