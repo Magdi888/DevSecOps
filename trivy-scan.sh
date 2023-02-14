@@ -2,8 +2,8 @@
 
 ImageName=$(awk 'NR==1 {print $2}' Dockerfile)
 
-trivy image --no-progress --timeout 20m0s --scanners vuln --severity HIGH --exit-code 0  $ImageName
-trivy image --no-progress --timeout 20m0s --scanners vuln --severity CRITICAL --exit-code 1  $ImageName
+trivy -q image  --timeout 20m0s --severity HIGH --exit-code 0 -q $ImageName
+trivy -q image  --timeout 20m0s --severity CRITICAL --exit-code 1 -q $ImageName
 
 exit-code=$?
 
