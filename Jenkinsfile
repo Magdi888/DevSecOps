@@ -41,6 +41,9 @@ pipeline {
             },
             'Trivy Image Scanning': {
               sh 'bash trivy-scan.sh'
+            },
+            'OPA Conftest': {
+              sh 'conftest test --policy dockerfile-security.rego Dockerfile'
             }
           )
           }
