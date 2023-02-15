@@ -49,34 +49,34 @@ pipeline {
           }
         }
       
-      stage('Build Artifact') {
-            steps {
-              sh "mvn clean package -DskipTests=true"
-              archive 'target/*.jar' //so that they can be downloaded later
-            }
-      }   
+      // stage('Build Artifact') {
+      //       steps {
+      //         sh "mvn clean package -DskipTests=true"
+      //         archive 'target/*.jar' //so that they can be downloaded later
+      //       }
+      // }   
 
-      stage('Docker Build & Push') {
-            steps {
-              script {
-                withCredentials([usernamePassword(credentialsId :'DockerHub',usernameVariable :'USER',passwordVariable :'PASSWORD')]){
-                  sh 'docker build -t amagdi888/my-repo:numeric-app .'
-                  sh 'echo $PASSWORD | docker login -u $USER --password-stdin'
-                  sh 'docker push amagdi888/my-repo:numeric-app'
-                }
-              }
-            }
-      }
+      // stage('Docker Build & Push') {
+      //       steps {
+      //         script {
+      //           withCredentials([usernamePassword(credentialsId :'DockerHub',usernameVariable :'USER',passwordVariable :'PASSWORD')]){
+      //             sh 'docker build -t amagdi888/my-repo:numeric-app .'
+      //             sh 'echo $PASSWORD | docker login -u $USER --password-stdin'
+      //             sh 'docker push amagdi888/my-repo:numeric-app'
+      //           }
+      //         }
+      //       }
+      // }
 
-      stage('Apply Kubernetes files') {
-            steps {
-              script {
-                    withKubeConfig([credentialsId: 'kubernetes']) {
-                      sh 'kubectl apply -f k8s_deployment_service.yaml'
-                    }
-              }
-            }
-      }
+      // stage('Apply Kubernetes files') {
+      //       steps {
+      //         script {
+      //               withKubeConfig([credentialsId: 'kubernetes']) {
+      //                 sh 'kubectl apply -f k8s_deployment_service.yaml'
+      //               }
+      //         }
+      //       }
+      // }
   }
 
   post {
