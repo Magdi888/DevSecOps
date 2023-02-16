@@ -71,6 +71,14 @@ pipeline {
       //       }
       // }
 
+      stage ('OPA Conftest for K8S') {
+            steps {
+              script {
+                sh 'conftest test --policy k8s-security.rego k8s_deployment_service.yaml'
+              }
+            }
+      }
+
       // stage('Apply Kubernetes files') {
       //       steps {
       //         script {
