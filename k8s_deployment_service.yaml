@@ -16,6 +16,9 @@ spec:
         app: devsecops
     spec:
       serviceAccountName: default
+      volumes:
+      - name: vol
+        emptyDir: {}
       containers:
       - image: amagdi888/my-repo:numeric-app
         name: devsecops-container
@@ -26,8 +29,14 @@ spec:
         ports:
         - containerPort: 8080
         securityContext:
+          readOnlyRootFilesystem: true
           runAsNonRoot: true
           runAsUser: 100
+        volumeMounts:
+        - mountPath: /tmp
+          name: vol
+          
+
 
 ---
 apiVersion: v1
