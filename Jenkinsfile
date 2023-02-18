@@ -28,18 +28,18 @@ pipeline {
             }
       }
 
-      stage ('SonarQube') {
-        steps {
-          script {
-            withSonarQubeEnv(credentialsId: 'sonarqube') {
-                sh "mvn sonar:sonar -Dsonar.projectKey=numeric-application"
-            }
-            timeout(time: 1, unit: 'MINUTES') {
-                waitForQualityGate abortPipeline: true
-            }
-          }
-        }
-      }
+      // stage ('SonarQube') {
+      //   steps {
+      //     script {
+      //       withSonarQubeEnv(credentialsId: 'sonarqube') {
+      //           sh "mvn sonar:sonar -Dsonar.projectKey=numeric-application"
+      //       }
+      //       timeout(time: 1, unit: 'MINUTES') {
+      //           waitForQualityGate abortPipeline: true
+      //       }
+      //     }
+      //   }
+      // }
 
       stage ('OWASP Dependency check & Image Scanning') {
         steps {
@@ -71,23 +71,28 @@ pipeline {
       //       }
       // }
 
-      stage ('OPA Conftest for K8S') {
+      stage ('K8S Vulnerabilities - Scan') {
+            steps {
+              parallel (
+                'OPA Conftest for K8S': {
+                  sh 'conftest test --policy k8s-security.rego k8s_deployment_service.yaml'
+                },
+                'Kubesec Scan': {
+                  sh 'bash kubesec.sh'
+                }
+              )
+              } 
+      }
+
+      stage('Apply Kubernetes files') {
             steps {
               script {
-                sh 'conftest test --policy k8s-security.rego k8s_deployment_service.yaml'
+                    withKubeConfig([credentialsId: 'kubernetes']) {
+                      sh 'kubectl apply -f k8s_deployment_service.yaml'
+                    }
               }
             }
       }
-
-      // stage('Apply Kubernetes files') {
-      //       steps {
-      //         script {
-      //               withKubeConfig([credentialsId: 'kubernetes']) {
-      //                 sh 'kubectl apply -f k8s_deployment_service.yaml'
-      //               }
-      //         }
-      //       }
-      // }
   }
 
   post {
