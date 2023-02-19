@@ -4,7 +4,7 @@ pipeline {
   maven 'maven3'
   }
   environment {
-    imageName = "amagdi888/my-repo:numeric-app:${env.BUILD_NUMBER}"
+    imageName = "amagdi888/my-repo:numeric-app-${env.BUILD_NUMBER}"
   }
 
   stages {
