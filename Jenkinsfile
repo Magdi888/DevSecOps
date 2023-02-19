@@ -103,7 +103,7 @@ pipeline {
                       sh 'git config --global user.email "jenkins@example.com"'
                       sh 'git config --global user.name "jenkins"'
 
-                      sh "git remote set-url origin https://${USER}:${PASS}github.com/Magdi888/DevSecOps.git"
+                      sh "git remote set-url origin https://${USER}:${PASS}@github.com/Magdi888/DevSecOps.git"
                       sh 'git add .'
                       sh 'git commit -m "update image tag"'
                       sh 'git push origin HEAD:master'
