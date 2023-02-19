@@ -93,6 +93,23 @@ pipeline {
                     sh "sed -i 's#replace#${imageName}#g' k8s_deployment_service.yaml"
               }
             }
+      }
+
+      stage('commit version update') {
+          steps {
+              script {
+                  withCredentials([usernamePassword(credentialsId: 'git-token', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                      // git config here for the first time run
+                      sh 'git config --global user.email "jenkins@example.com"'
+                      sh 'git config --global user.name "jenkins"'
+
+                      sh "git remote set-url origin https://${USER}:${PASS}@https://github.com/Magdi888/DevSecOps.git"
+                      sh 'git add .'
+                      sh 'git commit -m "update image tag"'
+                      sh 'git push origin HEAD:master'
+                  }
+              }
+          }
       }      
   }
 
