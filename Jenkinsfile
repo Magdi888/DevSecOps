@@ -3,6 +3,9 @@ pipeline {
   tools {
   maven 'maven3'
   }
+  environment {
+    imageName = "amagdi888/my-repo:numeric-app:${env.BUILD_NUMBER}"
+  }
 
   stages {
 
@@ -63,9 +66,9 @@ pipeline {
             steps {
               script {
                 withCredentials([usernamePassword(credentialsId :'DockerHub',usernameVariable :'USER',passwordVariable :'PASSWORD')]){
-                  sh 'docker build -t amagdi888/my-repo:numeric-app .'
+                  sh "docker build -t ${imageName} ."
                   sh 'echo $PASSWORD | docker login -u $USER --password-stdin'
-                  sh 'docker push amagdi888/my-repo:numeric-app'
+                  sh "docker push ${imageName}"
                 }
               }
             }
@@ -87,10 +90,7 @@ pipeline {
       stage('Apply Kubernetes files') {
             steps {
               script {
-                    withKubeConfig([credentialsId: 'kubernetes']) {
-                      sh 'kubectl apply -f k8s_deployment_service.yaml'
-                    }
-              }
+                    sh "sed -i 's/replace/${imageName}/g' k8s_deployment_service.yaml"
             }
       }
   }
