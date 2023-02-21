@@ -119,7 +119,7 @@ pipeline {
           steps {
               script {
                   withKubeConfig([credentialsId: 'kubernetes']) {
-                        sh ''
+                        sh 'bash OWASP-ZAP.sh'
                       }
               }
           }
