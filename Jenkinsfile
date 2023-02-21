@@ -106,7 +106,7 @@ pipeline {
                       sh "git remote set-url origin https://${USER}:${PASS}@github.com/Magdi888/DevSecOps.git"
                       sh 'git add .'
                       sh 'git commit -m "update image tag"'
-                      sh 'git push -u origin HEAD:master'
+                      sh 'git push -u origin master'
                   }
               }
           }
