@@ -27,3 +27,4 @@ bin
 .project
 target
 .vscode
+owasp-zap-report

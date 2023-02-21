@@ -5,6 +5,9 @@ pipeline {
   }
   environment {
     imageName = "amagdi888/my-repo:numeric-app-${env.BUILD_NUMBER}"
+    serviceName = "devsecops-svc"
+    appURL = "http://192.168.56.3"
+
   }
 
   stages {
@@ -110,7 +113,22 @@ pipeline {
                   }
               }
           }
-      }      
+      }
+
+      stage('OWASP ZAP - DAST') {
+          steps {
+              script {
+                  withKubeConfig([credentialsId: 'kubernetes']) {
+                        sh ''
+                      }
+              }
+          }
+      }
+
+
+
+
+
   }
 
   post {
