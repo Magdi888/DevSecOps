@@ -20,11 +20,11 @@ spec:
       - name: vol
         emptyDir: {}
       containers:
-      - image: amagdi888/my-repo:numeric-app-79
+      - image: amagdi888/my-repo:numeric-app-78
         name: devsecops-container
         resources:
           limits:
-            memory: "128Mi"
+            memory: "256Mi"
             cpu: "500m"
         ports:
         - containerPort: 8080
