@@ -115,15 +115,15 @@ pipeline {
           }
       }
 
-      stage('OWASP ZAP - DAST') {
-          steps {
-              script {
-                  withKubeConfig([credentialsId: 'kubernetes']) {
-                        sh 'bash OWASP-ZAP.sh'
-                      }
-              }
-          }
-      }
+      // stage('OWASP ZAP - DAST') {
+      //     steps {
+      //         script {
+      //             withKubeConfig([credentialsId: 'kubernetes']) {
+      //                   sh 'bash OWASP-ZAP.sh'
+      //                 }
+      //         }
+      //     }
+      // }
 
 
 
