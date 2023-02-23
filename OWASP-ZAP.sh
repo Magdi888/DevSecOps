@@ -9,12 +9,12 @@ exit_code=$?
 mkdir -p owasp-zap-report
 mv zap_report.html owasp-zap-report
 
-if [[ $exit_code == 1 ]]
-    then
-        echo "OWASP ZAP Report has Low/Medium/High Risk. Please check HTML Report"
-        exit 1;
-    else
-        echo "OWASP ZAP did not  report any Risk"
-    fi
+if ! [[ $exit_code == 0 ]]
+then
+    echo "OWASP ZAP Report has Low/Medium/High Risk. Please check HTML Report"
+    exit 1;
+else
+    echo "OWASP ZAP did not  report any Risk"
+fi
 
 
