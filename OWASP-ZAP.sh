@@ -2,7 +2,6 @@
 
 PORT=$(kubectl get svc devsecops-svc -o=jsonpath='{.spec.ports[*].nodePort}')
 
-chmod 777 $(pwd)
 
 docker container run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py -t $appURL:$PORT/v3/api-docs -f openapi  -r zap_report.html
 
