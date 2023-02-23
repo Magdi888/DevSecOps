@@ -2,8 +2,7 @@
 
 PORT=$(kubectl get svc devsecops-svc -o=jsonpath='{.spec.ports[*].nodePort}')
 
-
-docker container run --rm -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py -t $appURL:$PORT/v3/api-docs -f openapi  -r zap_report.html
+docker container run --rm -u 0 -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py -t $appURL:$PORT/v3/api-docs -f openapi  -r zap_report.html
 
 exit_code=$?
 
