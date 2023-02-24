@@ -149,7 +149,10 @@ pipeline {
           //  pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
           //  dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
           //  publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'owasp-zap-report', reportFiles: 'zap_report.html', reportName: 'OWAZP ZAP HTML Report', reportTitles: 'OWAZP ZAP HTML Report', useWrapperFileDirectly: true])
-          gv currentBuild.result
+          script {
+             gv currentBuild.result
+
+          }
       }
   }  
     
