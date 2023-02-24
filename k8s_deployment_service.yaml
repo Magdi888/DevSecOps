@@ -20,7 +20,7 @@ spec:
       - name: vol
         emptyDir: {}
       containers:
-      - image: amagdi888/my-repo:numeric-app-83
+      - image: amagdi888/my-repo:numeric-app-84
         name: devsecops-container
         resources:
           limits:
