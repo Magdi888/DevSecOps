@@ -138,7 +138,7 @@ pipeline {
       stage('Prompte to Prod') {
           steps {
             timeout(time: 1, unit: 'DAYS') {
-              input 'Do you want tp deploy to Prod Environment?'
+              input 'Do you want to deploy to Prod Environment?'
             }
           }
       }
