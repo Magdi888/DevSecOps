@@ -150,7 +150,6 @@ pipeline {
           //  dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
           //  publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'owasp-zap-report', reportFiles: 'zap_report.html', reportName: 'OWAZP ZAP HTML Report', reportTitles: 'OWAZP ZAP HTML Report', useWrapperFileDirectly: true])
           script {
-            env.status = currentBuild.result
              gv.call(currentBuild.result)
 
           }
